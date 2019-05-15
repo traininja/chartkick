@@ -16,11 +16,24 @@ Add this line to your application's Gemfile:
 gem "chartkick"
 ```
 
-In `application.js`, add:
+For Rails 6 / Webpacker, run:
+
+```sh
+yarn add chartkick chart.js
+```
+
+And in `app/javascript/pack/application.js`, add:
 
 ```js
-//= require Chart.bundle
+require("chartkick")
+require("chart.js")
+```
+
+For Rails 5, in `app/assets/javascripts/application.js`, add:
+
+```js
 //= require chartkick
+//= require Chart.bundle
 ```
 
 This sets up Chartkick with Chart.js. For other charting libraries, see [detailed instructions](#installation).
@@ -370,73 +383,80 @@ gem "chartkick"
 
 Next, choose your charting library.
 
-### Charting Libraries
+- [Chart.js](#chart-js)
+- [Google Charts](#google-charts)
+- [Highcharts](#highcharts)
 
 **Note:** In the instructions below, `application.js` must be included **before** the charts in your views, unless using the `:content_for` option.
 
-#### Chart.js
+### Chart.js
 
-In `application.js`, add:
+For Rails 6 / Webpacker, run:
+
+```sh
+yarn add chartkick chart.js
+```
+
+And in `app/javascript/pack/application.js`, add:
 
 ```js
+require("chartkick")
+require("chart.js")
+```
+
+For Rails 5, in `app/assets/javascripts/application.js`, add:
+
+```js
+//= require chartkick
 //= require Chart.bundle
-//= require chartkick
 ```
 
-#### Google Charts
+### Google Charts
 
-In `application.js`, add:
-
-```js
-//= require chartkick
-```
-
-In your views, before `application.js`, add:
+In your layout or views, add:
 
 ```erb
 <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 ```
 
-#### Highcharts
+For Rails 6 / Webpacker, run:
 
-Download [highcharts.js](https://code.highcharts.com/highcharts.js) into `vendor/assets/javascripts` (or use `yarn add highcharts` in Rails 5.1+).
+```sh
+yarn add chartkick
+```
 
-In `application.js`, add:
+And in `app/javascript/pack/application.js`, add:
 
 ```js
-//= require highcharts
+require("chartkick")
+```
+
+For Rails 5, in `app/assets/javascripts/application.js`, add:
+
+```js
 //= require chartkick
 ```
 
-Works with Highcharts 2.1+
+### Highcharts
 
-### Webpacker
-
-For Webpacker, use Yarn to install the JavaScript libraries:
+For Rails 6 / Webpacker, run:
 
 ```sh
-yarn add chartkick chart.js # or highcharts
+yarn add chartkick highcharts
 ```
 
-Then include them in your pack.
+And in `app/javascript/pack/application.js`, add:
 
-```es6
-import Chartkick from "chartkick";
-window.Chartkick = Chartkick;
-
-// for Chart.js
-import Chart from "chart.js";
-Chartkick.addAdapter(Chart);
-
-// for Highcharts
-import Highcharts from "highcharts";
-Chartkick.addAdapter(Highcharts);
-
-// for Google Charts
-// just include https://www.gstatic.com/charts/loader.js in your views
+```js
+require("chartkick").addAdapter(require("highcharts"))
 ```
 
-You pack must be included **before** the charts in your views, unless using the `:content_for` option.
+For Rails 5, download [highcharts.js](https://code.highcharts.com/highcharts.js) into `vendor/assets/javascripts` (or use `yarn add highcharts` in Rails 5.1+), and in `app/assets/javascripts/application.js`, add:
+
+```js
+//= require chartkick
+//= require highcharts
+```
 
 ### Sinatra and Padrino
 
