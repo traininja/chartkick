@@ -287,12 +287,13 @@ You capture the JavaScript in a content block with:
 Chartkick.options[:content_for] = :charts_js
 ```
 
-Then, in your layout:
+Then, in your layout, use:
 
 ```erb
-<%= yield :charts_js %> <!-- Rails -->
-<%= yield_content :charts_js %> <!-- Padrino -->
+<%= yield :charts_js %>
 ```
+
+> For Padrino, use `yield_content` instead of `yield`
 
 This is great for including all of your JavaScript at the bottom of the page.
 
@@ -341,7 +342,7 @@ If you want to use the charting library directly, get the code with:
 
 The code will be logged to the JavaScript console.
 
-**Note:** JavaScript functions cannot be logged, so it may not be identical.
+> JavaScript functions cannot be logged, so it may not be identical.
 
 ### Download Charts
 
@@ -353,7 +354,7 @@ Give users the ability to download charts. It all happens in the browser - no se
 <%= line_chart data, download: true %>
 ```
 
-**Note:** Safari will open the image in a new window instead of downloading.
+> Safari will open the image in a new window instead of downloading.
 
 Set the filename
 
@@ -387,7 +388,7 @@ Next, choose your charting library.
 - [Google Charts](#google-charts)
 - [Highcharts](#highcharts)
 
-**Note:** In the instructions below, `application.js` must be included **before** the charts in your views, unless using the `:content_for` option.
+> In the instructions below, `application.js` must be included **before** the charts in your views, unless using the `:content_for` option.
 
 ### Chart.js
 
