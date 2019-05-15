@@ -429,7 +429,7 @@ yarn add chartkick
 And in `app/javascript/pack/application.js`, add:
 
 ```js
-const Chartkick = require("chartkick")
+require("chartkick")
 ```
 
 For Rails 5 / Sprockets, in `app/assets/javascripts/application.js`, add:
