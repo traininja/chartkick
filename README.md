@@ -460,7 +460,7 @@ For Rails 5, download [highcharts.js](https://code.highcharts.com/highcharts.js)
 
 ### Sinatra and Padrino
 
-You must include `chartkick.js` manually. [Download it here](https://raw.githubusercontent.com/ankane/chartkick/master/vendor/assets/javascripts/chartkick.js)
+Download [chartkick.js](https://raw.githubusercontent.com/ankane/chartkick/master/vendor/assets/javascripts/chartkick.js) and include it manually.
 
 ```html
 <script src="chartkick.js"></script>
