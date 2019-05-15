@@ -29,7 +29,7 @@ require("chartkick")
 require("chart.js")
 ```
 
-For Rails 5, in `app/assets/javascripts/application.js`, add:
+For Rails 5 / Sprockets, in `app/assets/javascripts/application.js`, add:
 
 ```js
 //= require chartkick
@@ -405,7 +405,7 @@ require("chartkick")
 require("chart.js")
 ```
 
-For Rails 5, in `app/assets/javascripts/application.js`, add:
+For Rails 5 / Sprockets, in `app/assets/javascripts/application.js`, add:
 
 ```js
 //= require chartkick
@@ -432,7 +432,7 @@ And in `app/javascript/pack/application.js`, add:
 const Chartkick = require("chartkick")
 ```
 
-For Rails 5, in `app/assets/javascripts/application.js`, add:
+For Rails 5 / Sprockets, in `app/assets/javascripts/application.js`, add:
 
 ```js
 //= require chartkick
@@ -460,7 +460,7 @@ And in `app/javascript/pack/application.js`, add:
 require("chartkick").addAdapter(require("highcharts"))
 ```
 
-For Rails 5, download [highcharts.js](https://code.highcharts.com/highcharts.js) into `vendor/assets/javascripts` (or use `yarn add highcharts` in Rails 5.1+), and in `app/assets/javascripts/application.js`, add:
+For Rails 5 / Sprockets, download [highcharts.js](https://code.highcharts.com/highcharts.js) into `vendor/assets/javascripts` (or use `yarn add highcharts` in Rails 5.1+), and in `app/assets/javascripts/application.js`, add:
 
 ```js
 //= require chartkick
