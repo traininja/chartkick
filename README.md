@@ -22,7 +22,7 @@ For Rails 6 / Webpacker, run:
 yarn add chartkick chart.js
 ```
 
-And in `app/javascript/pack/application.js`, add:
+And in `app/javascript/packs/application.js`, add:
 
 ```js
 require("chartkick")
@@ -398,7 +398,7 @@ For Rails 6 / Webpacker, run:
 yarn add chartkick chart.js
 ```
 
-And in `app/javascript/pack/application.js`, add:
+And in `app/javascript/packs/application.js`, add:
 
 ```js
 require("chartkick")
@@ -426,7 +426,7 @@ For Rails 6 / Webpacker, run:
 yarn add chartkick
 ```
 
-And in `app/javascript/pack/application.js`, add:
+And in `app/javascript/packs/application.js`, add:
 
 ```js
 require("chartkick")
@@ -454,7 +454,7 @@ For Rails 6 / Webpacker, run:
 yarn add chartkick highcharts
 ```
 
-And in `app/javascript/pack/application.js`, add:
+And in `app/javascript/packs/application.js`, add:
 
 ```js
 require("chartkick").addAdapter(require("highcharts"))
