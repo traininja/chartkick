@@ -428,7 +428,7 @@ yarn add chartkick
 And in `app/javascript/pack/application.js`, add:
 
 ```js
-require("chartkick")
+const Chartkick = require("chartkick")
 ```
 
 For Rails 5, in `app/assets/javascripts/application.js`, add:
@@ -436,6 +436,14 @@ For Rails 5, in `app/assets/javascripts/application.js`, add:
 ```js
 //= require chartkick
 ```
+
+To specify a language or Google Maps API key, use:
+
+```js
+Chartkick.configure({language: "de", mapsApiKey: "..."})
+```
+
+before your charts.
 
 ### Highcharts
 
@@ -465,16 +473,6 @@ Download [chartkick.js](https://raw.githubusercontent.com/ankane/chartkick/maste
 ```html
 <script src="chartkick.js"></script>
 ```
-
-### Localization
-
-To specify a language for Google Charts, add:
-
-```javascript
-Chartkick.configure({language: "de"});
-```
-
-after the JavaScript files and before your charts.
 
 ### Multiple Libraries
 
