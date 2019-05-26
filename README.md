@@ -29,6 +29,8 @@ require("chartkick")
 require("chart.js")
 ```
 
+> You can also use `import` instead of `require()`
+
 For Rails 5 / Sprockets, in `app/assets/javascripts/application.js`, add:
 
 ```js
