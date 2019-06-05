@@ -2282,16 +2282,17 @@
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
 
-        // TODO skip already rendered charts
+        // skip already rendered charts
+        if (!node.chart) {
+          var type = node.getAttribute("data-chartkick-type");
+          var data = JSON.parse(node.getAttribute("data-chartkick-data"));
+          var options = JSON.parse(node.getAttribute("data-chartkick-options") || "{}");
 
-        var type = node.getAttribute("data-chartkick-type");
-        var data = JSON.parse(node.getAttribute("data-chartkick-data"));
-        var options = JSON.parse(node.getAttribute("data-chartkick-options") || "{}");
-
-        if (Chartkick[type] && Chartkick[type].prototype instanceof Chart) {
-          new Chartkick[type](node, data, options);
-        } else {
-          throw new Error("Unknown chart type");
+          if (Chartkick[type] && Chartkick[type].prototype instanceof Chart) {
+            node.chart = new Chartkick[type](node, data, options);
+          } else {
+            throw new Error("Unknown chart type");
+          }
         }
       }
     },
@@ -2299,8 +2300,9 @@
       var nodes = document.querySelectorAll("[data-chartkick-type]");
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
-        // TODO handle charts without id
-        Chartkick.charts[node.id].destroy();
+        if (node.chart) {
+          node.chart.destroy();
+        }
       }
     }
   };
