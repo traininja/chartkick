@@ -67,25 +67,43 @@ module Chartkick
         height: height,
         width: width
       }
+
+      data = data_source.respond_to?(:chart_json) ? data_source.chart_json : data_source.to_json
+
+      all_html = defer && !options[:html]
+
+      if all_html
+        html_vars[:type] = klass
+        html_vars[:data] = data
+        html_vars[:options] = options.to_json
+      end
+
       html_vars.each_key do |k|
         html_vars[k] = ERB::Util.html_escape(html_vars[k])
       end
-      html = (options.delete(:html) || %(<div id="%{id}" style="height: %{height}; width: %{width}; text-align: center; color: #999; line-height: %{height}; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div>)) % html_vars
+      default_html =
+        if all_html
+          %(<div id="%{id}" data-chartkick-type="%{type}" data-chartkick-data="%{data}" data-chartkick-options="%{options}" style="height: %{height}; width: %{width}; text-align: center; color: #999; line-height: %{height}; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div>)
+        else
+          %(<div id="%{id}" style="height: %{height}; width: %{width}; text-align: center; color: #999; line-height: %{height}; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div>)
+        end
+      html = (options.delete(:html) || default_html) % html_vars
 
-      # js vars
-      js_vars = {
-        type: klass.to_json,
-        id: element_id.to_json,
-        data: data_source.respond_to?(:chart_json) ? data_source.chart_json : data_source.to_json,
-        options: options.to_json
-      }
-      js_vars.each_key do |k|
-        js_vars[k] = chartkick_json_escape(js_vars[k])
-      end
-      createjs = "new Chartkick[%{type}](%{id}, %{data}, %{options});" % js_vars
+      unless all_html
+        # js vars
+        js_vars = {
+          type: klass.to_json,
+          id: element_id.to_json,
+          data: data,
+          options: options.to_json
+        }
+        js_vars.each_key do |k|
+          js_vars[k] = chartkick_json_escape(js_vars[k])
+        end
+        createjs = "new Chartkick[%{type}](%{id}, %{data}, %{options});" % js_vars
 
-      if defer
-        js = <<JS
+        if defer
+          js = <<JS
 <script type="text/javascript"#{nonce_html}>
   (function() {
     var createChart = function() { #{createjs} };
@@ -99,18 +117,19 @@ module Chartkick
   })();
 </script>
 JS
-      else
-        js = <<JS
+        else
+          js = <<JS
 <script type="text/javascript"#{nonce_html}>
   #{createjs}
 </script>
 JS
-      end
+        end
 
-      if content_for
-        content_for(content_for) { js.respond_to?(:html_safe) ? js.html_safe : js }
-      else
-        html += js
+        if content_for
+          content_for(content_for) { js.respond_to?(:html_safe) ? js.html_safe : js }
+        else
+          html += js
+        end
       end
 
       html.respond_to?(:html_safe) ? html.html_safe : html

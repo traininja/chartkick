@@ -2276,12 +2276,47 @@
     use: function(adapter) {
       addAdapter(adapter);
       return Chartkick;
+    },
+    mount: function() {
+      var nodes = document.querySelectorAll("[data-chartkick-type]");
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+
+        // TODO skip already rendered charts
+
+        var type = node.getAttribute("data-chartkick-type");
+        var data = JSON.parse(node.getAttribute("data-chartkick-data"));
+        var options = JSON.parse(node.getAttribute("data-chartkick-options") || "{}");
+
+        if (Chartkick[type] && Chartkick[type].prototype instanceof Chart) {
+          new Chartkick[type](node, data, options);
+        } else {
+          throw new Error("Unknown chart type");
+        }
+      }
+    },
+    unmount: function() {
+      var nodes = document.querySelectorAll("[data-chartkick-type]");
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        // TODO handle charts without id
+        Chartkick.charts[node.id].destroy();
+      }
     }
   };
 
-  // not ideal, but allows for simpler integration
-  if (typeof window !== "undefined" && !window.Chartkick) {
-    window.Chartkick = Chartkick;
+  if (typeof window !== "undefined") {
+    if (typeof Turbolinks !== "undefined") {
+      addEvent(window, "turbolinks:load", Chartkick.mount);
+      addEvent(window, "turbolinks:before-render", Chartkick.unmount);
+    } else {
+      addEvent(window, "DOMContentLoaded", Chartkick.mount);
+    }
+
+    // not ideal, but allows for simpler integration
+    if (!window.Chartkick) {
+      window.Chartkick = Chartkick;
+    }
   }
 
   // backwards compatibility for esm require
