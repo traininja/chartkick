@@ -98,30 +98,20 @@ module Chartkick
       end
       createjs = "new Chartkick[%{type}](%{id}, %{data}, %{options});" % js_vars
 
-      if defer
-        # TODO remove type in 4.0
-        js = <<JS
-<script type="text/javascript"#{nonce_html}>
-  (function() {
-    var createChart = function() { #{createjs} };
-    if (window.addEventListener) {
-      window.addEventListener("load", createChart, true);
-    } else if (window.attachEvent) {
-      window.attachEvent("onload", createChart);
-    } else {
-      createChart();
-    }
-  })();
-</script>
-JS
-      else
-        # TODO remove type in 4.0
-        js = <<JS
-<script type="text/javascript"#{nonce_html}>
-  #{createjs}
-</script>
-JS
-      end
+      warn "[chartkick] The defer option is no longer needed and can be removed" if defer
+
+      js = <<~JS
+        <script #{nonce_html}>
+          (function() {
+            var createChart = function() { #{createjs} };
+            if ("Chartkick" in window) {
+              createChart();
+            } else {
+              window.addEventListener("chartkick:load", createChart, true);
+            }
+          })();
+        </script>
+      JS
 
       if content_for
         content_for(content_for) { js.respond_to?(:html_safe) ? js.html_safe : js }
