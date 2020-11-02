@@ -109,11 +109,9 @@ module Chartkick
       js = <<~JS
         <script #{nonce_html}>
           (function() {
-            var createChart = function() {
-              if (!document.documentElement.hasAttribute("data-turbolinks-preview")) {
-                #{createjs}
-              }
-            };
+            if (document.documentElement.hasAttribute("data-turbolinks-preview")) return;
+
+            var createChart = function() { #{createjs} };
             if ("Chartkick" in window) {
               createChart();
             } else {
