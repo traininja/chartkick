@@ -46,6 +46,7 @@ module Chartkick
       defer = !!options.delete(:defer)
       # content_for: nil must override default
       content_for = options.key?(:content_for) ? options.delete(:content_for) : Chartkick.content_for
+      load_event = defined?(Turbolinks) ? "turbolinks:load" : "load"
 
       nonce = options.delete(:nonce)
       if nonce == true
@@ -98,14 +99,14 @@ module Chartkick
       end
       createjs = "new Chartkick[%{type}](%{id}, %{data}, %{options});" % js_vars
 
-      if defer
+      if defer || defined?(Turbolinks)
         # TODO remove type in 4.0
         js = <<JS
 <script type="text/javascript"#{nonce_html}>
   (function() {
     var createChart = function() { #{createjs} };
     if (window.addEventListener) {
-      window.addEventListener("load", createChart, true);
+      window.addEventListener("#{load_event}", createChart, true);
     } else if (window.attachEvent) {
       window.attachEvent("onload", createChart);
     } else {
